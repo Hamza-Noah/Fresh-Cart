@@ -8,17 +8,25 @@ import Cart from "./components/Cart/Cart";
 import NotFound from "./components/NotFound/NotFound";
 
 const router = createBrowserRouter([
-  {path: "/", element: <Layout/>},
-  {path: "home", element: <Home/>, children:[
-    {path: "products", element: <Products/>},
-    {path: "cart", element: <Cart/>},
-    {path: "categories", element: <Categories/>},
-    {path: "*", element: <NotFound/>},
-  ]},
-])
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "products", element: <Products /> },
+      { path: "cart", element: <Cart /> },
+      { path: "categories", element: <Categories /> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
 
 function App() {
-  return <><RouterProvider router={router}></RouterProvider></>;
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 export default App;

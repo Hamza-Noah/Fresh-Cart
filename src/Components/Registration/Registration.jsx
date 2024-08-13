@@ -41,8 +41,6 @@ export default function Registration() {
       "https://ecommerce.routemisr.com/api/v1/auth/signup",
       values
     );
-
-    console.log(data);
   }
 
   return (

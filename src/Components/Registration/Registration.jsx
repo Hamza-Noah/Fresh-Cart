@@ -1,4 +1,6 @@
 import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
 export default function Registration() {
   let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
@@ -11,55 +13,37 @@ export default function Registration() {
         phone: "",
       },
       onSubmit: register,
-      validate: validateData,
+      validationSchema: Yup.object({
+        name: Yup.string()
+          .required("Name is required")
+          .min(3, "Name Must be more than 3")
+          .max(20, "Name Must be 20 characters maximum"),
+        email: Yup.string()
+          .required("Email is required")
+          .email("enter valid Email"),
+        password: Yup.string()
+          .required("Password is required")
+          .matches(
+            /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+            "Minimum eight characters, at least one letter, one number and one special character"
+          ),
+        rePassword: Yup.string()
+          .required("RePassword is required")
+          .oneOf(
+            [Yup.ref("password")],
+            "Password and RePassword must be matched"
+          ),
+      }),
     });
 
-  function register(e) {
-    console.log("Call API");
-    
+  async function register(e) {
+    let { data } = await axios.post(
+      "https://ecommerce.routemisr.com/api/v1/auth/signup",
+      values
+    );
+
+    console.log(data);
   }
-
-  function validateData(values) {
-    let errors = {};
-
-    if (values.name == "") {
-      errors.name = "Name is required";
-    } else if (values.name.length < 3) {
-      errors.name = "Name Must be more than 3";
-    } else if (values.name.length > 21) {
-      errors.name = "Name Must be less than 20 character";
-    }
-
-    if (values.email == "") {
-      errors.email = "Email is required";
-    }
-
-    if (values.password == "") {
-      errors.password = "Password is required";
-    } else if (
-      /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(
-        values.password
-      ) !== true
-    ) {
-      errors.password =
-        "Minimum eight characters, at least one letter, one number and one special character";
-    }
-
-    if (values.rePassword == "") {
-      errors.rePassword = "RePassword is required";
-    } else if (values.password !== values.rePassword) {
-      errors.rePassword = "Password and RePassword must be matched";
-    }
-
-    if (values.phone == "") {
-      errors.phone = "Phone is required";
-    }
-
-    console.log(errors);
-
-    return errors;
-  }
-
 
   return (
     <>
@@ -143,7 +127,9 @@ export default function Registration() {
                 name="rePassword"
                 className="w-full px-3 dark:text-gray-200 dark:bg-gray-900 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {touched.rePassword && errors.rePassword && <p>{errors.rePassword}</p>}
+              {touched.rePassword && errors.rePassword && (
+                <p>{errors.rePassword}</p>
+              )}
             </div>
             <div className="flex items-start flex-col justify-start">
               <label

@@ -28,19 +28,24 @@ export default function Registration() {
             "Minimum eight characters, at least one letter, one number and one special character"
           ),
         rePassword: Yup.string()
-          .required("RePassword is required")
-          .oneOf(
-            [Yup.ref("password")],
-            "Password and RePassword must be matched"
-          ),
+          .required("Confirm Your Password")
+          .oneOf([Yup.ref("password")]),
+        phone: Yup.string().required("Phone Number is Required"),
       }),
     });
 
   async function register(e) {
-    let { data } = await axios.post(
-      "https://ecommerce.routemisr.com/api/v1/auth/signup",
-      values
-    );
+    try {
+      let { data } = await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        values
+      );
+
+      console.log("Call API");
+      
+    } catch {
+      console.log("err");
+    }
   }
 
   return (

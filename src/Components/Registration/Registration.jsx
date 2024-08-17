@@ -1,8 +1,31 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Registration() {
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .required("Name is required")
+      .min(3, "Name Must be more than 3")
+      .max(20, "Name Must be 20 characters maximum"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("enter valid Email"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+        "Minimum eight characters, at least one letter, one number and one special character"
+      ),
+    rePassword: Yup.string()
+      .required("Confirm Your Password")
+      .oneOf([Yup.ref("password")]),
+    phone: Yup.string().required("Phone Number is Required"),
+  });
+
+  const navigate = useNavigate();
+
   let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
     useFormik({
       initialValues: {
@@ -12,37 +35,20 @@ export default function Registration() {
         rePassword: "",
         phone: "",
       },
-      onSubmit: register,
-      validationSchema: Yup.object({
-        name: Yup.string()
-          .required("Name is required")
-          .min(3, "Name Must be more than 3")
-          .max(20, "Name Must be 20 characters maximum"),
-        email: Yup.string()
-          .required("Email is required")
-          .email("enter valid Email"),
-        password: Yup.string()
-          .required("Password is required")
-          .matches(
-            /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-            "Minimum eight characters, at least one letter, one number and one special character"
-          ),
-        rePassword: Yup.string()
-          .required("Confirm Your Password")
-          .oneOf([Yup.ref("password")]),
-        phone: Yup.string().required("Phone Number is Required"),
-      }),
+      onSubmit,
+      validationSchema,
     });
 
-  async function register(e) {
+  async function onSubmit(e) {
     try {
       let { data } = await axios.post(
         "https://ecommerce.routemisr.com/api/v1/auth/signup",
         values
       );
 
+      navigate("/login")
+
       console.log("Call API");
-      
     } catch {
       console.log("err");
     }

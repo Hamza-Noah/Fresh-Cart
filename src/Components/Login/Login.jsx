@@ -4,6 +4,21 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required("Email is required")
+      .email("enter valid Email"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+        "Minimum eight characters, at least one letter, one number and one special character"
+      ),
+  });
+
+  const navigate = useNavigate();
+
+
   let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
     useFormik({
       initialValues: {
@@ -11,19 +26,9 @@ export default function Login() {
         password: "",
       },
       onSubmit,
-      validationSchema: Yup.object({
-        email: Yup.string()
-          .required("Email is required")
-          .email("enter valid Email"),
-        password: Yup.string()
-          .required("Password is required")
-          .matches(
-            /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-            "Minimum eight characters, at least one letter, one number and one special character"
-          ),
-      }),
+      validationSchema,
     });
- const navigate =    useNavigate();
+
   async function onSubmit() {
     try {
       let { data } = await axios.post(
@@ -31,13 +36,14 @@ export default function Login() {
         values
       );
 
+      navigate("/")
+
       console.log("@".repeat(22));
-      
     } catch {
       console.log("err");
     }
-
   }
+
 
   return (
     <>

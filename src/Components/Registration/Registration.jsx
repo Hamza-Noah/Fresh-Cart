@@ -1,9 +1,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Registration() {
+  const navigate = useNavigate();
+  const [isLodaing, setisLodaing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Name is required")
@@ -24,33 +30,40 @@ export default function Registration() {
     phone: Yup.string().required("Phone Number is Required"),
   });
 
-  const navigate = useNavigate();
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    rePassword: "",
+    phone: "",
+  };
 
   let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
     useFormik({
-      initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        rePassword: "",
-        phone: "",
-      },
+      initialValues,
       onSubmit,
       validationSchema,
     });
 
   async function onSubmit(e) {
+    setisLodaing(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     try {
       let { data } = await axios.post(
         "https://ecommerce.routemisr.com/api/v1/auth/signup",
         values
       );
 
-      navigate("/login")
-
-      console.log("Call API");
-    } catch {
-      console.log("err");
+      setSuccessMessage("Success");
+      setisLodaing(false);
+      setTimeout(() => {
+        navigate("/login");
+      }, 500);
+    } catch (err) {
+      setErrorMessage(err.response.data.message);
+      setisLodaing(false);
     }
   }
 
@@ -160,18 +173,25 @@ export default function Registration() {
             </div>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm disabled:bg-gray-400"
+              disabled={isLodaing}
             >
-              Register
+              Register {isLodaing && <i className="fa fa-spinner fa-spin"></i>}
             </button>
+            {errorMessage && (
+              <p className="text-red-500 text-center">{errorMessage}</p>
+            )}
+            {successMessage && (
+              <p className="text-green-500 text-center">{successMessage}</p>
+            )}
           </form>
           <div className="mt-4 text-center">
             <span className="text-sm text-gray-500 dark:text-gray-300">
               Already have an account?{" "}
             </span>
-            <a href="#" className="text-blue-500 hover:text-blue-600">
+            <Link to="/login" className="text-blue-500 hover:text-blue-600">
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>

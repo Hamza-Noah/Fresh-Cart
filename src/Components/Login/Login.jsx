@@ -1,9 +1,14 @@
+import { useState } from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
+  const [isLodaing, setisLodaing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")
@@ -16,34 +21,42 @@ export default function Login() {
       ),
   });
 
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
   const navigate = useNavigate();
 
-
-  let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      onSubmit,
-      validationSchema,
-    });
-
   async function onSubmit() {
+    setisLodaing(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     try {
       let { data } = await axios.post(
         "https://ecommerce.routemisr.com/api/v1/auth/signin",
         values
       );
+      setisLodaing(false);
+      setSuccessMessage(data.message);
 
-      navigate("/")
-
-      console.log("@".repeat(22));
-    } catch {
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+    } catch (err) {
       console.log("err");
+      setErrorMessage(err.response.data.message);
+      setisLodaing(false);
     }
   }
 
+  let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
+    useFormik({
+      onSubmit,
+      validationSchema,
+      initialValues,
+    });
 
   return (
     <>
@@ -96,9 +109,28 @@ export default function Login() {
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
+              disabled={isLodaing}
             >
-              Login
+              Login {" "}
+              {isLodaing && <i className="fa fa-spinner fa-spin"></i>}
             </button>
+            {errorMessage && (
+              <p className="text-red-500 text-center">{errorMessage}</p>
+            )}
+            {successMessage && (
+              <p className="text-green-500 text-center">{successMessage}</p>
+            )}
+            <div className="text-center text-gray-500 dark:text-gray-300">
+              {" "}
+              If you do not have an account
+              <Link
+                to="/register"
+                className="text-blue-500 hover:text-blue-600 "
+              >
+                {" "}
+                register
+              </Link>
+            </div>
           </form>
         </div>
       </div>

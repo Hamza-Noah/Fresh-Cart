@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthContextProvider from "./Contexts/AuthContext";
 
 import Login from "./Components/Login/Login";
 import Layout from "./Components/Layout/Layout";
@@ -49,7 +50,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
+      <AuthContextProvider>
+        <RouterProvider router={router}></RouterProvider>
+      </AuthContextProvider>
     </>
   );
 }

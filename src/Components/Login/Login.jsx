@@ -3,11 +3,15 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 export default function Login() {
   const [isLodaing, setisLodaing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const { userToken, setUserToken } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -26,8 +30,6 @@ export default function Login() {
     password: "",
   };
 
-  const navigate = useNavigate();
-
   async function onSubmit() {
     setisLodaing(true);
     setErrorMessage("");
@@ -40,6 +42,8 @@ export default function Login() {
       );
       setisLodaing(false);
       setSuccessMessage(data.message);
+      localStorage.setItem("userToken", data.token)
+      setUserToken(data.token);
 
       setTimeout(() => {
         navigate("/");
@@ -111,8 +115,7 @@ export default function Login() {
               className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
               disabled={isLodaing}
             >
-              Login {" "}
-              {isLodaing && <i className="fa fa-spinner fa-spin"></i>}
+              Login {isLodaing && <i className="fa fa-spinner fa-spin"></i>}
             </button>
             {errorMessage && (
               <p className="text-red-500 text-center">{errorMessage}</p>

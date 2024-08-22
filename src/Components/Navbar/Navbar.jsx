@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { userToken, setUserToken } = useContext(AuthContext);
+  const navigate = useNavigate()
+
+  function signout() {
+    setUserToken("");
+    localStorage.removeItem("userToken");
+    navigate("/login");
+  }
+
   return (
     <header className="bg-gray-800 absolute w-full">
       <nav className="container mx-auto px-6 py-3">
@@ -11,35 +21,37 @@ const Navbar = () => {
             <div className="text-white font-bold text-xl me-8">
               <NavLink to="/">Logo</NavLink>
             </div>
-            <div className="hidden md:block">
-              <ul className="flex items-center space-x-2">
-                <li>
-                  <NavLink to="/" className="block px-1 text-white">
-                    Home
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/about" className="block px-1 text-white">
-                    About
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/categories" className="block px-1 text-white">
-                    Categories
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/brands" className="block px-1 text-white">
-                    Brands
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/cart" className="block px-1 text-white">
-                    Cart
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
+            {userToken && (
+              <div className="hidden md:block">
+                <ul className="flex items-center space-x-2">
+                  <li>
+                    <NavLink to="/" className="block px-1 text-white">
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/about" className="block px-1 text-white">
+                      About
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/categories" className="block px-1 text-white">
+                      Categories
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/brands" className="block px-1 text-white">
+                      Brands
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/cart" className="block px-1 text-white">
+                      Cart
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -70,27 +82,36 @@ const Navbar = () => {
             </div>
             <div>
               <ul className="flex gap-1">
-                <li>
-                  <NavLink
-                    to="/login"
-                    className="block px-1 py-2 text-white rounded"
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/register"
-                    className="block px-1 py-2 text-white rounded"
-                  >
-                    Register
-                  </NavLink>
-                </li>
-                <li>
-                  <Link className="block px-1 py-2 text-white rounded">
-                    Logout
-                  </Link>
-                </li>
+                {!userToken && (
+                  <li>
+                    <NavLink
+                      to="/login"
+                      className="block px-1 py-2 text-white rounded"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                )}
+                {!userToken && (
+                  <li>
+                    <NavLink
+                      to="/register"
+                      className="block px-1 py-2 text-white rounded"
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                )}
+                {userToken && (
+                  <li>
+                    <button
+                      onClick={signout}
+                      className="block px-1 py-2 text-white rounded"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -100,40 +121,42 @@ const Navbar = () => {
             isOpen ? "mobile-menu md:hidden" : "mobile-menu md:hidden hidden"
           }
         >
-          <ul className="mt-4 space-y-4">
-            <li>
-              <NavLink
-                to="/"
-                className="block px-1 py-2 text-white bg-gray-900 rounded"
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/"
-                className="block px-1 py-2 text-white bg-gray-900 rounded"
-              >
-                About
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/"
-                className="block px-1 py-2 text-white bg-gray-900 rounded"
-              >
-                Categories
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/"
-                className="block px-1 py-2 text-white bg-gray-900 rounded"
-              >
-                Brands
-              </NavLink>
-            </li>
-          </ul>
+          {userToken && (
+            <ul className="mt-4 space-y-4">
+              <li>
+                <NavLink
+                  to="/"
+                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                >
+                  Categories
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                >
+                  Brands
+                </NavLink>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
     </header>

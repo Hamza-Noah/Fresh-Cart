@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <div className="grid grid-cols-4 gap-3">
         {products.map((product, i) => {
-          return <Product product={product} index={i} />;
+          return <Product product={product} key={i} />;
         })}
       </div>
     </>

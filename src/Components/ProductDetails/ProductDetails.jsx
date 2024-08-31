@@ -50,7 +50,7 @@ export default function ProductDetails() {
   useEffect(() => {
     getProducts();
   }, [id]);
-  
+
   return (
     <>
       {isLoding ? (
@@ -61,11 +61,11 @@ export default function ProductDetails() {
             <div className="container mx-auto px-6">
               <div className="md:flex md:items-center">
                 <div className="w-full md:w-3/12 lg:h-96">
-                  <img
+                  {/* <img
                     className="h-full mx-auto rounded-md object-contain"
                     src={product?.imageCover}
                     alt="..."
-                  />
+                  /> */}
                   <ProductImageSlider images={product?.images} />
                 </div>
                 <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">

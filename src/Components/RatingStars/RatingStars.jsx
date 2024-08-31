@@ -1,6 +1,4 @@
 export default function RatingStars({ rate }) {
-  console.log(rate);
-
   return (
     <>
       <div className="flex items-center">

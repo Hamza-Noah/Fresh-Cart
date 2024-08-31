@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RatingStars from "../RatingStars/RatingStars";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [isLoding, setIsLoding] = useState(true);
   let { id } = useParams();
-
-  console.log(isLoding);
 
   async function getProducts() {
     try {
@@ -36,12 +35,15 @@ export default function ProductDetails() {
           <main className="my-8">
             <div className="container mx-auto px-6">
               <div className="md:flex md:items-center">
-                <div className="w-full h-64 md:w-1/2 lg:h-96">
+                <div className="w-full md:w-3/12 lg:h-96">
                   <img
                     className="h-full mx-auto rounded-md object-contain"
                     src={product?.imageCover}
-                    alt="Nike Air"
+                    alt="..."
                   />
+                  <ProductImageSlider
+                    images={product?.images}
+                  ></ProductImageSlider>
                 </div>
                 <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
                   <h3 className="text-gray-700 uppercase text-lg">

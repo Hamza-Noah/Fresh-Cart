@@ -9,6 +9,7 @@ import Products from "./Components/Products/Products";
 import Categories from "./Components/Categories/Categories";
 import Home from "./Components/Home/Home";
 import NotFound from "./Components/NotFound/NotFound";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,6 +36,10 @@ function App() {
         {
           path: "products",
           element: <Products />,
+        },
+        {
+          path: "productdetails/:id",
+          element: <ProductDetails />,
         },
         {
           path: "categories",

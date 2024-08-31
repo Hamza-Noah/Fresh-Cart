@@ -1,79 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import AuthContextProvider from "./Contexts/AuthContext";
-
-import Login from "./Components/Login";
-import Layout from "./Components/Layout";
-import Registration from "./Components/Registration";
-import Cart from "./Components/Cart";
-import Products from "./Components/Products";
-import Categories from "./Components/Categories";
-import Home from "./Components/Home";
-import NotFound from "./Components/NotFound";
-import ProductDetails from "./Components/ProductDetails";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import router from "./routing/routes";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "",
-      element: <Layout />,
-      children: [
-        {
-          index: true,
-          element: (
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "register",
-          element: <Registration />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "cart",
-          element: (
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "products",
-          element: (
-            <ProtectedRoute>
-              <Products />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "productdetails/:id",
-          element: (
-            <ProtectedRoute>
-              <ProductDetails />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "categories",
-          element: (
-            <ProtectedRoute>
-              <Categories />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "*",
-          element: <NotFound />,
-        },
-      ],
-    },
-  ]);
-
   return (
     <AuthContextProvider>
       <RouterProvider router={router}></RouterProvider>

@@ -10,6 +10,7 @@ import Categories from "./Components/Categories";
 import Home from "./Components/Home";
 import NotFound from "./Components/NotFound";
 import ProductDetails from "./Components/ProductDetails";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -19,7 +20,11 @@ function App() {
       children: [
         {
           index: true,
-          element: <Home />,
+          element: (
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "register",
@@ -31,19 +36,35 @@ function App() {
         },
         {
           path: "cart",
-          element: <Cart />,
+          element: (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "products",
-          element: <Products />,
+          element: (
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "productdetails/:id",
-          element: <ProductDetails />,
+          element: (
+            <ProtectedRoute>
+              <ProductDetails />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "categories",
-          element: <Categories />,
+          element: (
+            <ProtectedRoute>
+              <Categories />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "*",
@@ -54,11 +75,9 @@ function App() {
   ]);
 
   return (
-    <>
-      <AuthContextProvider>
-        <RouterProvider router={router}></RouterProvider>
-      </AuthContextProvider>
-    </>
+    <AuthContextProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthContextProvider>
   );
 }
 

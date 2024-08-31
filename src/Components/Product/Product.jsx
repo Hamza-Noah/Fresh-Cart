@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import RatingStars from "../RatingStars/RatingStars";
+import RatingStars from "../RatingStars";
 
 export default function Product({ product }) {
   return (

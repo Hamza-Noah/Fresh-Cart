@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import RatingStars from "../RatingStars/RatingStars";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
-import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import RatingStars from "../RatingStars";
+import LoadingScreen from "../LoadingScreen";
+import ProductImageSlider from "../ProductImageSlider";
+import RelatedProducts from "../RelatedProducts";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);

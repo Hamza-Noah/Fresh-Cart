@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthContextProvider from "./Contexts/AuthContext";
 
-import Login from "./Components/Login/Login";
-import Layout from "./Components/Layout/Layout";
-import Registration from "./Components/Registration/Registration";
-import Cart from "./Components/Cart/Cart";
-import Products from "./Components/Products/Products";
-import Categories from "./Components/Categories/Categories";
-import Home from "./Components/Home/Home";
-import NotFound from "./Components/NotFound/NotFound";
-import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import Login from "./Components/Login";
+import Layout from "./Components/Layout";
+import Registration from "./Components/Registration";
+import Cart from "./Components/Cart";
+import Products from "./Components/Products";
+import Categories from "./Components/Categories";
+import Home from "./Components/Home";
+import NotFound from "./Components/NotFound";
+import ProductDetails from "./Components/ProductDetails";
 
 function App() {
   const router = createBrowserRouter([

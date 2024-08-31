@@ -1,18 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Product from "../Product/Product";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [isLoding, setIsLoding] = useState(true);
 
   async function getData() {
-    let { data } = await axios.get(
-      "https://ecommerce.routemisr.com/api/v1/products"
-    );
-    setProducts(data.data);
+    try {
+      let { data } = await axios.get(
+        "https://ecommerce.routemisr.com/api/v1/products"
+      );
+      setProducts(data.data);
+      setIsLoding(false);
+    } catch {
+      setIsLoding(false);
+    }
   }
-
-  console.log(products);
 
   useEffect(() => {
     getData();
@@ -20,11 +25,15 @@ export default function Home() {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-3">
-        {products.map((product, i) => {
-          return <Product product={product} key={i} />;
-        })}
-      </div>
+      {isLoding ? (
+        <LoadingScreen />
+      ) : (
+        <div className="grid grid-cols-4 gap-3">
+          {products.map((product, i) => {
+            return <Product product={product} key={i} />;
+          })}
+        </div>
+      )}
     </>
   );
 }

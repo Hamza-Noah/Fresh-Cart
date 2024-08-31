@@ -15,7 +15,8 @@ export default function ProductImageSlider({ images }) {
       <Slider {...settings}>
         {images.map((img, i) => {
           return (
-            <img
+            <img 
+            key={i}
               className="w-full mx-auto rounded-md object-contain"
               src={img}
               alt="..."

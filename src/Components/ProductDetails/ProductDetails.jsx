@@ -4,11 +4,15 @@ import { useParams } from "react-router-dom";
 import RatingStars from "../RatingStars/RatingStars";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
+import RelatedProducts from "../RelatedProducts/RelatedProducts";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [isLoding, setIsLoding] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   let { id } = useParams();
+
+  console.log(relatedProducts);
 
   async function getProducts() {
     try {
@@ -17,8 +21,25 @@ export default function ProductDetails() {
       );
       setIsLoding(false);
       setProduct(data.data);
+      getRelatedProducts(data.data?.category._id);
     } catch {
       setIsLoding(false);
+    }
+  }
+
+  async function getRelatedProducts(categoryId) {
+    try {
+      const { data } = await axios.get(
+        "https://ecommerce.routemisr.com/api/v1/products/",
+        {
+          params: {
+            category: categoryId,
+          },
+        }
+      );
+      setRelatedProducts(data.data);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -41,9 +62,7 @@ export default function ProductDetails() {
                     src={product?.imageCover}
                     alt="..."
                   />
-                  <ProductImageSlider
-                    images={product?.images}
-                  ></ProductImageSlider>
+                  <ProductImageSlider images={product?.images} />
                 </div>
                 <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
                   <h3 className="text-gray-700 uppercase text-lg">
@@ -54,9 +73,7 @@ export default function ProductDetails() {
                   <div className="mt-3">
                     <h3 className="text-gray-700 text-sm">Rating</h3>
                     <div className="flex">
-                      <RatingStars
-                        rate={product?.ratingsAverage ?? 0}
-                      ></RatingStars>
+                      <RatingStars rate={product?.ratingsAverage ?? 0} />
                       <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                         {product?.ratingsAverage}
                       </span>
@@ -92,6 +109,18 @@ export default function ProductDetails() {
                       </svg>
                     </button>
                   </div>
+                </div>
+              </div>
+              <div className="mt-16">
+                <h3 className="text-gray-600 text-2xl font-medium">
+                  More Products
+                </h3>
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+                  {relatedProducts.map((relatedProduct, i) => {
+                    return (
+                      <RelatedProducts key={i} relatedProduct={relatedProduct}/>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -7,6 +7,7 @@ import Categories from "../Components/Pages/Categories";
 import Home from "../Components/pages/Home";
 import ProductDetails from "../Components/Pages/ProductDetails";
 import ProtectedRoute from "../Components/ProtectedRoute";
+import ProtectedAuthRoute from "../Components/ProtectedAuthRoute";
 import NotFound from "../Components/Pages/NotFound";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -25,11 +26,19 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Registration />,
+        element: (
+          <ProtectedAuthRoute>
+            <Registration />
+          </ProtectedAuthRoute>
+        ),
       },
       {
         path: "login",
-        element: <Login />,
+        element: (
+          <ProtectedAuthRoute>
+            <Login />
+          </ProtectedAuthRoute>
+        ),
       },
       {
         path: "cart",

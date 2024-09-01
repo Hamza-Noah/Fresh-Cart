@@ -1,13 +1,13 @@
-import Login from "../Components/Login";
 import Layout from "../Components/Layout";
-import Registration from "../Components/Registration";
+import Login from "../Components/pages/Login";
+import Registration from "../Components/Pages/Registration";
 import Cart from "../Components/Cart";
 import Products from "../Components/Products";
-import Categories from "../Components/Categories";
-import Home from "../Components/Home";
-import NotFound from "../Components/NotFound";
-import ProductDetails from "../Components/ProductDetails";
+import Categories from "../Components/Pages/Categories";
+import Home from "../Components/pages/Home";
+import ProductDetails from "../Components/Pages/ProductDetails";
 import ProtectedRoute from "../Components/ProtectedRoute";
+import NotFound from "../Components/Pages/NotFound";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([

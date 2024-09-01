@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import Slider from "react-slick/lib/slider";
+import { AuthContext } from "../../Contexts/AuthContext";
+import addProductToCart from "../../cartService";
+import { useContext } from "react";
 
 export default function RelatedProducts({ relatedProducts }) {
+  const { userToken } = useContext(AuthContext);
+
   var settings = {
     infinite: false,
     speed: 500,
@@ -28,13 +33,18 @@ export default function RelatedProducts({ relatedProducts }) {
                       backgroundImage: `url(${relatedProduct.imageCover})`,
                     }}
                   >
-                    <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                    <button
+                      onClick={() => {
+                        addProductToCart(relatedProduct.id, userToken);
+                      }}
+                      className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                    >
                       <svg
                         className="h-5 w-5"
                         fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >

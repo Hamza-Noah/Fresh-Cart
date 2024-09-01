@@ -1,18 +1,20 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RatingStars from "../RatingStars";
 import LoadingScreen from "../LoadingScreen";
 import ProductImageSlider from "../ProductImageSlider";
 import RelatedProducts from "../RelatedProducts";
 
+import { AuthContext } from "../../Contexts/AuthContext";
+import addProductToCart from "../../cartService";
+
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [isLoding, setIsLoding] = useState(true);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { id } = useParams();
-
-
+  const { userToken } = useContext(AuthContext);
 
   async function getProducts() {
     try {
@@ -46,7 +48,7 @@ export default function ProductDetails() {
   useEffect(() => {
     getProducts();
   }, []);
-  
+
   useEffect(() => {
     getProducts();
   }, [id]);
@@ -96,7 +98,12 @@ export default function ProductDetails() {
                     <p>{product?.brand.name}</p>
                   </div>
                   <div className="flex items-center mt-6">
-                    <button className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                    <button
+                      onClick={() => {
+                        addProductToCart(product.id, userToken);
+                      }}
+                      className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
+                    >
                       Order Now
                     </button>
                     <button className="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">

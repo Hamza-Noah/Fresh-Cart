@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 import RatingStars from "../RatingStars";
+import { AuthContext } from "../../Contexts/AuthContext";
+import addProductToCart from "../../cartService";
+
 
 export default function Product({ product }) {
+  const {userToken} = useContext(AuthContext);
+
+ 
+
+
   return (
     <>
       <div className="max-w-2xl mx-auto gap">
@@ -21,7 +30,7 @@ export default function Product({ product }) {
               <p className="line-clamp-3">{product.description}</p>
             </Link>
             <div className="flex items-center mt-2.5 mb-5">
-            <RatingStars rate={product.ratingsAverage}></RatingStars>
+              <RatingStars rate={product.ratingsAverage}></RatingStars>
               <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                 {product.ratingsAverage}
               </span>
@@ -30,7 +39,12 @@ export default function Product({ product }) {
               <span className="text-3xl font-bold text-gray-900 dark:text-white">
                 {product.price}
               </span>
-              <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <button
+                onClick={() => {
+                  addProductToCart(product.id, userToken);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
                 Add to cart
               </button>
             </div>

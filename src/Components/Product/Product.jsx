@@ -4,12 +4,8 @@ import RatingStars from "../RatingStars";
 import { AuthContext } from "../../Contexts/AuthContext";
 import addProductToCart from "../../cartService";
 
-
 export default function Product({ product }) {
-  const {userToken} = useContext(AuthContext);
-
- 
-
+  const { userToken } = useContext(AuthContext);
 
   return (
     <>
@@ -37,7 +33,7 @@ export default function Product({ product }) {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                {product.price}
+                ${product.price}
               </span>
               <button
                 onClick={() => {

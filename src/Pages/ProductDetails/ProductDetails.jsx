@@ -7,7 +7,7 @@ import ProductImageSlider from "../../Components/ProductImageSlider";
 import RelatedProducts from "../../Components/RelatedProducts";
 
 import { AuthContext } from "../../Contexts/AuthContext";
-import addProductToCart from "../../cartService";
+import addProductToCart from "../../Services/cartService";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);

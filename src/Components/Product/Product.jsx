@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import RatingStars from "../RatingStars";
 import { AuthContext } from "../../Contexts/AuthContext";
-import addProductToCart from "../../cartService";
+import addProductToCart from "../../Services/cartService";
 
 export default function Product({ product }) {
   const { userToken } = useContext(AuthContext);

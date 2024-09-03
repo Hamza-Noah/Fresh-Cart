@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
-import { Bounce, toast } from "react-toastify";
+import removeProductFromCart from "../../Services/removeFromCartService";
+
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
@@ -24,31 +25,7 @@ export default function Cart() {
     setCart(data);
   }
 
-  async function removeProductFromCart(productId) {
-    const { data } = await axios.delete(
-      "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
-      {
-        headers: {
-          token: userToken,
-        },
-      }
-    );
-
-    toast.success("removed the Product successfully from the cart", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-
-    setCart(data);
-  }
-
+ 
   return (
     <>
       <div className="min-h-screen bg-gray-100 pt-20">
@@ -98,7 +75,7 @@ export default function Cart() {
                         </p>
                         <svg
                           onClick={() => {
-                            removeProductFromCart(product.product._id);
+                            removeProductFromCart(userToken, product.product._id, setCart);
                           }}
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

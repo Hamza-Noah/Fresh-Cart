@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import removeProductFromCart from "../../Services/removeFromCartService";
+import getUserCart from "../../Services/getUserCart";
 
 
 export default function Cart() {
@@ -9,21 +9,10 @@ export default function Cart() {
   const { userToken } = useContext(AuthContext);
 
   useEffect(() => {
-    getUserCart();
+    getUserCart(userToken, setCart);
   }, []);
 
-  async function getUserCart() {
-    let { data } = await axios.get(
-      "https://ecommerce.routemisr.com/api/v1/cart",
-      {
-        headers: {
-          token: localStorage.getItem("userToken"),
-        },
-      }
-    );
-
-    setCart(data);
-  }
+ 
 
  
   return (

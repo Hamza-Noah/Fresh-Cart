@@ -14,7 +14,7 @@ export default function RelatedProducts({ relatedProducts }) {
 
   return (
     <>
-      <div className="mt-16">
+      <div className="mt-60">
         <h3 className="text-gray-600 text-2xl font-medium">More Products</h3>
         <Slider {...settings}>
           {relatedProducts.map((relatedProduct, i) => {

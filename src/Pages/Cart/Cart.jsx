@@ -1,8 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthContext";
+import { Bounce, toast } from "react-toastify";
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
+  const { userToken } = useContext(AuthContext);
 
   useEffect(() => {
     getUserCart();
@@ -17,6 +20,31 @@ export default function Cart() {
         },
       }
     );
+
+    setCart(data);
+  }
+
+  async function removeProductFromCart(productId) {
+    const { data } = await axios.delete(
+      "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
+      {
+        headers: {
+          token: userToken,
+        },
+      }
+    );
+
+    toast.success("removed the Product successfully from the cart", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
     setCart(data);
   }
@@ -41,9 +69,11 @@ export default function Cart() {
                   <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                     <div className="mt-5 sm:mt-0">
                       <h2 className="text-lg font-bold text-gray-900">
-                      {product.product.title}
+                        {product.product.title}
                       </h2>
-                      <p className="mt-1 text-xs text-gray-700">${product.price}</p>
+                      <p className="mt-1 text-xs text-gray-700">
+                        ${product.price}
+                      </p>
                     </div>
                     <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <div className="flex items-center border-gray-100">
@@ -63,8 +93,13 @@ export default function Cart() {
                         </span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <p className="text-sm">${product.price * product.count}</p>
+                        <p className="text-sm">
+                          ${product.price * product.count}
+                        </p>
                         <svg
+                          onClick={() => {
+                            removeProductFromCart(product.product._id);
+                          }}
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -98,7 +133,9 @@ export default function Cart() {
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div>
-                <p className="mb-1 text-lg font-bold">{cart?.data.totalCartPrice}</p>
+                <p className="mb-1 text-lg font-bold">
+                  {cart?.data.totalCartPrice}
+                </p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>

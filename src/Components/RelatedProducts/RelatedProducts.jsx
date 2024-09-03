@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Slider from "react-slick/lib/slider";
 import { AuthContext } from "../../Contexts/AuthContext";
-import addProductToCart from "../../Services/cartService";
+import addProductToCart from "../../Services/addToCartService";
 import { useContext } from "react";
 
 export default function RelatedProducts({ relatedProducts }) {

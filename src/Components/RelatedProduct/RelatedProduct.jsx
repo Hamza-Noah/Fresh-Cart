@@ -21,7 +21,9 @@ export default function RelatedProduct({ relatedProduct }) {
               onClick={() => {
                 addProductToCart(relatedProduct.id, userToken, setIsLoading);
               }}
-              className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+              className={`${
+                !isLoading ? "p-2" : "py-1 px-2"
+              } rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500`}
             >
               {!isLoading ? (
                 <svg

@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import RatingStars from "../RatingStars";
 import { AuthContext } from "../../Contexts/AuthContext";
 import addProductToCart from "../../Services/addToCartService";
 
 export default function Product({ product }) {
   const { userToken } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -37,11 +38,12 @@ export default function Product({ product }) {
               </span>
               <button
                 onClick={() => {
-                  addProductToCart(product.id, userToken);
+                  addProductToCart(product.id, userToken, setIsLoading);
                 }}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Add to cart
+                Add to cart{" "}
+                {isLoading && <i className="fa fa-spinner fa-spin"></i>}
               </button>
             </div>
           </div>

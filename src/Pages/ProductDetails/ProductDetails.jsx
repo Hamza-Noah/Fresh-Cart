@@ -105,7 +105,8 @@ export default function ProductDetails() {
                       onClick={() => {
                         addProductToCart(product.id, userToken, setIsLoading);
                       }}
-                      className="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none"
+                      disabled={isLoding}
+                      className={`${isLoding ? "cursor-not-allowed" : ""} mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none`}
                     >
                       {!isLoding ? (
                         <svg

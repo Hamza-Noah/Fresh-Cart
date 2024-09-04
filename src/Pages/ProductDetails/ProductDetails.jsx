@@ -5,27 +5,27 @@ import RatingStars from "../../Components/RatingStars";
 import LoadingScreen from "../../Components/LoadingScreen";
 import ProductImageSlider from "../../Components/ProductImageSlider";
 import RelatedProducts from "../../Components/RelatedProducts";
-
 import { AuthContext } from "../../Contexts/AuthContext";
 import addProductToCart from "../../Services/addToCartService";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
-  const [isLoding, setIsLoding] = useState(true);
+  const [isLoding, setIsLoading] = useState(false);
+  const [isDetailsLoding, setIsDetailsLoding] = useState(true);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { id } = useParams();
   const { userToken } = useContext(AuthContext);
 
-  async function getProducts() {
+  async function getProduct() {
     try {
       const { data } = await axios.get(
         "https://ecommerce.routemisr.com/api/v1/products/" + id
       );
-      setIsLoding(false);
+      setIsDetailsLoding(false);
       setProduct(data.data);
       getRelatedProducts(data.data?.category._id);
     } catch {
-      setIsLoding(false);
+      setIsDetailsLoding(false);
     }
   }
 
@@ -46,16 +46,16 @@ export default function ProductDetails() {
   }
 
   useEffect(() => {
-    getProducts();
+    getProduct();
   }, []);
 
   useEffect(() => {
-    getProducts();
+    getProduct();
   }, [id]);
 
   return (
     <>
-      {isLoding ? (
+      {isDetailsLoding ? (
         <LoadingScreen />
       ) : (
         <div x-data="{ cartOpen: false , isOpen: false }" className="bg-white">
@@ -98,31 +98,34 @@ export default function ProductDetails() {
                     <p>{product?.brand.name}</p>
                   </div>
                   <div className="flex items-center mt-6">
-                    <button
-                      onClick={() => {
-                        addProductToCart(product.id, userToken);
-                      }}
-                      className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
-                    >
+                    <button className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
                       Order Now
                     </button>
-                    <button className="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
+                    <button
+                      onClick={() => {
+                        addProductToCart(product.id, userToken, setIsLoading);
+                      }}
+                      className="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none"
+                    >
+                      {!isLoding ? (
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      ) : (
+                        <i className="fa fa-spinner fa-spin"></i>
+                      )}
                     </button>
                   </div>
                 </div>
               </div>
-
               <RelatedProducts relatedProducts={relatedProducts} />
             </div>
           </main>

@@ -49,6 +49,11 @@ const Navbar = () => {
                       Cart
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink to="/wishlist" className="block px-1 text-white">
+                    Wishlist
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             )}

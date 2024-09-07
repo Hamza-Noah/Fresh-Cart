@@ -6,6 +6,7 @@ import Products from "../Components/Products";
 import Categories from "../Pages/Categories";
 import Home from "../Pages/Home";
 import ProductDetails from "../Pages/ProductDetails";
+import Wishlist from "../Pages/Wishlist";
 import ProtectedRoute from "../Components/ProtectedRoute";
 import ProtectedAuthRoute from "../Components/ProtectedAuthRoute";
 import NotFound from "../Pages/NotFound";
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <ProtectedRoute>
+            <Wishlist />
           </ProtectedRoute>
         ),
       },

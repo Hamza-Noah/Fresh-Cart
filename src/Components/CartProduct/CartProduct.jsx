@@ -1,11 +1,20 @@
 import removeProductFromCart from "../../Services/removeFromCartService";
-import { useContext } from "react";
+import addToCartService from "../../Services/addToCartService";
+
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 
-export default function CartProduct({ product, setCart }) {
-
+export default function CartProduct({ product, setCart, setRerender, reRrender }) {
   const { userToken } = useContext(AuthContext);
-  
+
+  useEffect(() => {
+   
+  }, [reRrender]);
+
+  function increaseQuantity() {
+    addToCartService(product.product._id, userToken, setRerender, reRrender);
+  }
+
   return (
     <>
       <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
@@ -30,10 +39,13 @@ export default function CartProduct({ product, setCart }) {
               <input
                 className="h-8 w-8 border bg-white text-center text-xs outline-none"
                 type="number"
-                defaultValue={product.count}
+                value={product.count}
                 min={1}
               />
-              <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
+              <span
+                onClick={increaseQuantity}
+                className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+              >
                 {" "}
                 +{" "}
               </span>

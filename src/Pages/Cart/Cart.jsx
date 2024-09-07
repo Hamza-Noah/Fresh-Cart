@@ -6,10 +6,12 @@ import CartProduct from "../../Components/CartProduct/CartProduct";
 export default function Cart() {
   const [cart, setCart] = useState(null);
   const { userToken } = useContext(AuthContext);
+  const [reRrender, setRerender] = useState(false);
+
 
   useEffect(() => {
     getUserCart(userToken, setCart);
-  }, []);
+  }, [reRrender]);
 
   return (
     <>
@@ -18,7 +20,7 @@ export default function Cart() {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {cart?.data.products.map((product, i) => {
-              return <CartProduct product={product} setCart={setCart} key={i} />;
+              return <CartProduct product={product} setRerender={setRerender} reRrender={reRrender} setCart={setCart} key={i} />;
             })}
           </div>
           <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">

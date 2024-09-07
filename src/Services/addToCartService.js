@@ -4,9 +4,13 @@ import axios from "axios";
 export default async function addProductToCart(
   productId,
   userToken,
-  setIsLoading
+  setIsLoading = null,
+  setRerender = null,
+  reRrender 
 ) {
-  setIsLoading(true);
+  if (setIsLoading !== null) {
+    setIsLoading(true);
+  }
 
   try {
     let { data } = await axios.post(
@@ -33,8 +37,17 @@ export default async function addProductToCart(
       transition: Bounce,
     });
 
-    setIsLoading(false);
-  } catch {
-    setIsLoading(false);
+    if (setRerender !== null) {
+      setRerender(!reRrender);
+    }
+
+    if (setIsLoading !== null) {
+      setIsLoading(false);
+    }
+  } catch (err) {
+    if (setIsLoading !== null) {
+      setIsLoading(false);
+    }
+    console.log(err);
   }
 }

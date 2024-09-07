@@ -1,7 +1,7 @@
 import removeProductFromCart from "../../Services/removeFromCartService";
 import addToCartService from "../../Services/addToCartService";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 
 export default function CartProduct({ product, setCart, setRerender, reRrender }) {

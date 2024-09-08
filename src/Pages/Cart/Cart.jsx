@@ -2,12 +2,12 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import getUserCart from "../../Services/getUserCart";
 import CartProduct from "../../Components/CartProduct/CartProduct";
+import clearUserCart from "../../Services/clearCartService";
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
   const { userToken } = useContext(AuthContext);
   const [reRrender, setRerender] = useState(false);
-
 
   useEffect(() => {
     getUserCart(userToken, setCart);
@@ -19,8 +19,16 @@ export default function Cart() {
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
-            {cart?.data.products.map((product, i) => {
-              return <CartProduct product={product} setRerender={setRerender} reRrender={reRrender} setCart={setCart} key={i} />;
+            {cart?.data?.products?.map((product, i) => {
+              return (
+                <CartProduct
+                  product={product}
+                  setRerender={setRerender}
+                  reRrender={reRrender}
+                  setCart={setCart}
+                  key={i}
+                />
+              );
             })}
           </div>
           <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
@@ -37,7 +45,7 @@ export default function Cart() {
               <p className="text-lg font-bold">Total</p>
               <div>
                 <p className="mb-1 text-lg font-bold">
-                  {cart?.data.totalCartPrice}
+                  {cart?.data?.totalCartPrice}
                 </p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
@@ -47,6 +55,13 @@ export default function Cart() {
             </button>
           </div>
         </div>
+        <button className="btn font-bold"
+          onClick={() => {
+            clearUserCart(userToken, setCart);
+          }}
+        >
+          clear cart
+        </button>
       </div>
     </>
   );

@@ -12,6 +12,8 @@ export default function Cart() {
     getUserCart(userToken, setCart);
   }, []);
 
+  
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 pt-20">
@@ -21,6 +23,7 @@ export default function Cart() {
             {cart?.data?.products?.map((product, i) => {
               return (
                 <CartProduct
+                  userToken={userToken}
                   product={product}
                   setCart={setCart}
                   key={i}

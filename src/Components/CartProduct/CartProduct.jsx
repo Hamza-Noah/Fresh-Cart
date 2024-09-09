@@ -1,14 +1,7 @@
 import removeProductFromCart from "../../Services/removeFromCartService";
 import addToCartService from "../../Services/addToCartService";
 
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../../Contexts/AuthContext";
-
-export default function CartProduct({ product, setCart }) {
-  const { userToken } = useContext(AuthContext);
-
-
-
+export default function CartProduct({ product, setCart, userToken }) {
   function increaseQuantity() {
     addToCartService(product.product._id, userToken);
   }
@@ -78,4 +71,3 @@ export default function CartProduct({ product, setCart }) {
     </>
   );
 }
-  

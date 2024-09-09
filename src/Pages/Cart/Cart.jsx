@@ -7,11 +7,10 @@ import clearUserCart from "../../Services/clearCartService";
 export default function Cart() {
   const [cart, setCart] = useState(null);
   const { userToken } = useContext(AuthContext);
-  const [reRrender, setRerender] = useState(false);
 
   useEffect(() => {
     getUserCart(userToken, setCart);
-  }, [reRrender]);
+  }, []);
 
   return (
     <>
@@ -23,8 +22,6 @@ export default function Cart() {
               return (
                 <CartProduct
                   product={product}
-                  setRerender={setRerender}
-                  reRrender={reRrender}
                   setCart={setCart}
                   key={i}
                 />

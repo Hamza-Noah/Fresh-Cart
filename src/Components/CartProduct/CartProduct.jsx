@@ -4,15 +4,13 @@ import addToCartService from "../../Services/addToCartService";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 
-export default function CartProduct({ product, setCart, setRerender, reRrender }) {
+export default function CartProduct({ product, setCart }) {
   const { userToken } = useContext(AuthContext);
 
-  useEffect(() => {
-   
-  }, [reRrender]);
+
 
   function increaseQuantity() {
-    addToCartService(product.product._id, userToken, setRerender, reRrender);
+    addToCartService(product.product._id, userToken);
   }
 
   return (
@@ -80,3 +78,4 @@ export default function CartProduct({ product, setCart, setRerender, reRrender }
     </>
   );
 }
+  

@@ -4,9 +4,7 @@ import axios from "axios";
 export default async function addProductToCart(
   productId,
   userToken,
-  setIsLoading = null,
-  setRerender = null,
-  reRrender 
+  setIsLoading = null
 ) {
   if (setIsLoading !== null) {
     setIsLoading(true);
@@ -36,10 +34,6 @@ export default async function addProductToCart(
       theme: "light",
       transition: Bounce,
     });
-
-    if (setRerender !== null) {
-      setRerender(!reRrender);
-    }
 
     if (setIsLoading !== null) {
       setIsLoading(false);

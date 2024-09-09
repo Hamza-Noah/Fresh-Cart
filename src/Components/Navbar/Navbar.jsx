@@ -5,7 +5,7 @@ import { AuthContext } from "../../Contexts/AuthContext";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { userToken, setUserToken } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function signout() {
     setUserToken("");
@@ -51,7 +51,7 @@ const Navbar = () => {
                   </li>
                   <li>
                     <NavLink to="/wishlist" className="block px-1 text-white">
-                    Wishlist
+                      Wishlist
                     </NavLink>
                   </li>
                 </ul>
@@ -131,33 +131,43 @@ const Navbar = () => {
               <li>
                 <NavLink
                   to="/"
-                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                  className="block px-2 py-2 text-white bg-gray-900 rounded"
                 >
                   Home
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/"
-                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                  to="/about"
+                  className="block px-2 py-2 text-white bg-gray-900 rounded"
                 >
                   About
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/"
-                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                  to="/categories"
+                  className="block px-2 py-2 text-white bg-gray-900 rounded"
                 >
                   Categories
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/"
-                  className="block px-1 py-2 text-white bg-gray-900 rounded"
+                  to="/brands"
+                  className="block px-2 py-2 text-white bg-gray-900 rounded"
                 >
                   Brands
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/cart" className="block px-2 py-2 text-white bg-gray-900 rounded">
+                  Cart
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/wishlist" className="block px-2 py-2 text-white bg-gray-900 rounded">
+                  Wishlist
                 </NavLink>
               </li>
             </ul>

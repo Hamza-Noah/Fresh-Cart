@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <Navbar></Navbar>
-      <div className="pt-24 pb-8 container mx-auto">
+      <div className="min-h-screen pt-24 pb-8 container mx-auto">
         <Outlet></Outlet>
       </div>
       <Footer></Footer>

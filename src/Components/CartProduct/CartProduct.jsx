@@ -1,11 +1,7 @@
 import removeProductFromCartService from "../../Services/removeProductFromCartService";
-import addToCartService from "../../Services/addToCartService";
+import updateProductQuantity from "../../Services/updateProductQuantity";
 
 export default function CartProduct({ product, setCart, userToken }) {
-  function increaseQuantity() {
-    addToCartService(product.product._id, userToken);
-  }
-
   return (
     <>
       <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
@@ -23,7 +19,16 @@ export default function CartProduct({ product, setCart, userToken }) {
           </div>
           <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
             <div className="flex items-center border-gray-100">
-              <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
+              <span
+                onClick={() => {
+                  updateProductQuantity(
+                    product.product._id,
+                    product.count - 1,
+                    setCart
+                  );
+                }}
+                className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+              >
                 {" "}
                 -{" "}
               </span>
@@ -34,7 +39,13 @@ export default function CartProduct({ product, setCart, userToken }) {
                 min={1}
               />
               <span
-                onClick={increaseQuantity}
+                onClick={() => {
+                  updateProductQuantity(
+                    product.product._id,
+                    product.count + 1,
+                    setCart
+                  );
+                }}
                 className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
               >
                 {" "}

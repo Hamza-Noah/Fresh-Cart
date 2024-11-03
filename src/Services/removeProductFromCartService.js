@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 
-export default async function removeProductFromCart(
+export default async function removeProductFromCartService(
   userToken,
   productId,
   setCart

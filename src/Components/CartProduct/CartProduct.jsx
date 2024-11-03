@@ -1,4 +1,4 @@
-import removeProductFromCart from "../../Services/removeFromCartService";
+import removeProductFromCartService from "../../Services/removeProductFromCartService";
 import addToCartService from "../../Services/addToCartService";
 
 export default function CartProduct({ product, setCart, userToken }) {
@@ -45,7 +45,7 @@ export default function CartProduct({ product, setCart, userToken }) {
               <p className="text-sm">${product.price * product.count}</p>
               <svg
                 onClick={() => {
-                  removeProductFromCart(
+                  removeProductFromCartService(
                     userToken,
                     product.product._id,
                     setCart

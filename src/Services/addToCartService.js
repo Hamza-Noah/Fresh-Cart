@@ -42,6 +42,5 @@ export default async function addProductToCart(
     if (setIsLoading !== null) {
       setIsLoading(false);
     }
-    console.log(err);
   }
 }

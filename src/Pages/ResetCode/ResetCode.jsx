@@ -30,9 +30,6 @@ export default function ResetCode() {
       );
       setSuccessMessage(data.message);
 
-      console.log(data);
-      
-
       setTimeout(() => {
         nabvigate("/resetpssword");
       }, 2000);
@@ -78,14 +75,16 @@ export default function ResetCode() {
               onBlur={handleBlur}
               className="w-full px-3 dark:text-gray-200 dark:bg-gray-900 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
-            {touched.resetCode && errors.resetCode && <p className="text-red-600">{errors.resetCode}</p>}
+            {touched.resetCode && errors.resetCode && (
+              <p className="text-red-600">{errors.resetCode}</p>
+            )}
           </div>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
             disabled={errors.resetCode}
           >
-          Enter Reset Code {" "}
+            Enter Reset Code{" "}
             {isLodaing && <i className="fa fa-spinner fa-spin"></i>}
           </button>
           {errorMessage && (

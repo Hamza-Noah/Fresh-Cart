@@ -50,7 +50,6 @@ export default function ResetPssword() {
         navigate("/");
       }, 2000);
     } catch (err) {
-      console.log(err.response.data);
       setErrorMessage(err.response.data.message);
       setisLodaing(false);
     }

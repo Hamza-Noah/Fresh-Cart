@@ -10,7 +10,7 @@ export default function Login() {
   const [isLodaing, setisLodaing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const {setUserToken} = useContext(AuthContext);
+  const { setUserToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
@@ -49,7 +49,6 @@ export default function Login() {
         navigate("/");
       }, 500);
     } catch (err) {
-      console.log("err");
       setErrorMessage(err.response.data.message);
       setisLodaing(false);
     }

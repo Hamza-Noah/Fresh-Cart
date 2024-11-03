@@ -39,8 +39,6 @@ export default function ForgetPassword() {
 
       setisLodaing(false);
     } catch (error) {
-      console.log(error);
-      
       setErrorMessage(error.message);
       setisLodaing(false);
     }

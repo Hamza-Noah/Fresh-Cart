@@ -41,7 +41,7 @@ export default function ProductDetails() {
       );
       setRelatedProducts(data.data);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 

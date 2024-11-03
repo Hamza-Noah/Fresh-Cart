@@ -1,5 +1,7 @@
 import Layout from "../Components/Layout";
 import Login from "../Pages/Login/Login";
+import ResetCode from "../Pages/ResetCode";
+import ForgetPassword from "../Pages/ForgetPassword";
 import Registration from "../Pages/Registration";
 import Cart from "../Pages/Cart";
 import Products from "../Components/Products";
@@ -9,8 +11,10 @@ import ProductDetails from "../Pages/ProductDetails";
 import Wishlist from "../Pages/Wishlist";
 import ProtectedRoute from "../Components/ProtectedRoute";
 import ProtectedAuthRoute from "../Components/ProtectedAuthRoute";
+
 import NotFound from "../Pages/NotFound";
 import { createBrowserRouter } from "react-router-dom";
+import ResetPssword from "../Pages/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +42,30 @@ const router = createBrowserRouter([
         element: (
           <ProtectedAuthRoute>
             <Login />
+          </ProtectedAuthRoute>
+        ),
+      },
+      {
+        path: "forgetpassword",
+        element: (
+          <ProtectedAuthRoute>
+            <ForgetPassword />
+          </ProtectedAuthRoute>
+        ),
+      },
+      {
+        path: "forgetpassword/resetcode",
+        element: (
+          <ProtectedAuthRoute>
+            <ResetCode />
+          </ProtectedAuthRoute>
+        ),
+      },
+      {
+        path: "resetpssword",
+        element: (
+          <ProtectedAuthRoute>
+            <ResetPssword />
           </ProtectedAuthRoute>
         ),
       },

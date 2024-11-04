@@ -1,4 +1,4 @@
-import useResetCode from "../../hooks/useResetCode.js";
+import useResetCode from "../../hooks/useResetCode";
 
 export default function ResetCode() {
   const { formik, isLodaing, errorMessage, successMessage } = useResetCode();

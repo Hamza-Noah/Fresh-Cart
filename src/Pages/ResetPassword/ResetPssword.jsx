@@ -1,4 +1,4 @@
-import useResetPssword from "../../hooks/useResetPssword.js";
+import useResetPssword from "../../hooks/useResetPssword";
 
 export default function ResetPssword() {
   const { fokir, isLodaing, errorMessage, successMessage } = useResetPssword();

@@ -1,55 +1,9 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useForgotPassword } from "../../hooks/useForgotPassword";
 
 export default function ForgetPassword() {
-  const [isLodaing, setisLodaing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const nabvigate = useNavigate();
-
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .required("Email is required")
-      .email("enter valid Email"),
-  });
-
-  const initialValues = {
-    email: "",
-    resetCode: "",
-  };
-
-  async function onSubmit() {
-    setisLodaing(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    try {
-      let { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords",
-        values
-      );
-      setSuccessMessage(data.message);
-
-      setTimeout(() => {
-        nabvigate("resetcode");
-      }, 2000);
-
-      setisLodaing(false);
-    } catch (error) {
-      setErrorMessage(error.message);
-      setisLodaing(false);
-    }
-  }
-
-  let { handleSubmit, values, handleChange, touched, handleBlur, errors } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit,
-    });
+  const {formik, isLodaing, errorMessage, successMessage } = useForgotPassword();
+  const {handleBlur, handleChange, handleSubmit, values, errors, touched} = formik;
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center">

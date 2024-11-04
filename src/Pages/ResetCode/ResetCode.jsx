@@ -1,52 +1,9 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useResetCode from "../../hooks/useResetCode.js";
 
 export default function ResetCode() {
-  const [isLodaing, setisLodaing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const nabvigate = useNavigate();
-
-  const validationSchema = Yup.object({
-    resetCode: Yup.string().required("Reset Code is required"),
-  });
-
-  const initialValues = {
-    resetCode: "",
-  };
-
-  async function onSubmit() {
-    setisLodaing(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    try {
-      let { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode",
-        values
-      );
-      setSuccessMessage(data.message);
-
-      setTimeout(() => {
-        nabvigate("/resetpssword");
-      }, 2000);
-
-      setisLodaing(false);
-    } catch (error) {
-      setErrorMessage(error);
-      setisLodaing(false);
-    }
-  }
-
-  let { handleSubmit, values, handleChange, touched, handleBlur, errors } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit,
-    });
+  const { formik, isLodaing, errorMessage, successMessage } = useResetCode();
+  const { handleSubmit, values, handleChange, handleBlur, errors, touched } =
+    formik;
 
   return (
     <div className="min-h-screen flex items-center justify-center">

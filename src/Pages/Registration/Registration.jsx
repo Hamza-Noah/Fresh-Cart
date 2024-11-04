@@ -1,71 +1,10 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useRegistration } from "../../hooks/useRegistration";
 
 export default function Registration() {
-  const navigate = useNavigate();
-  const [isLodaing, setisLodaing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("Name is required")
-      .min(3, "Name Must be more than 3")
-      .max(20, "Name Must be 20 characters maximum"),
-    email: Yup.string()
-      .required("Email is required")
-      .email("enter valid Email"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-        "Minimum eight characters, at least one letter, one number and one special character"
-      ),
-    rePassword: Yup.string()
-      .required("Confirm Your Password")
-      .oneOf([Yup.ref("password")]),
-    phone: Yup.string().required("Phone Number is Required"),
-  });
-
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    rePassword: "",
-    phone: "",
-  };
-
-  let { handleSubmit, values, handleChange, errors, touched, handleBlur } =
-    useFormik({
-      initialValues,
-      onSubmit,
-      validationSchema,
-    });
-
-  async function onSubmit(e) {
-    setisLodaing(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    try {
-      let { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/signup",
-        values
-      );
-
-      setSuccessMessage("Success");
-      setisLodaing(false);
-      setTimeout(() => {
-        navigate("/login");
-      }, 500);
-    } catch (err) {
-      setErrorMessage(err.response.data.message);
-      setisLodaing(false);
-    }
-  }
+  const { formik, isLodaing, errorMessage, successMessage } = useRegistration();
+  const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
+    formik;
 
   return (
     <>
